@@ -135,7 +135,7 @@ func (service *passwordService) get(ctx context.Context) (passwordRecord, error)
 		return passwordRecord{}, err
 	}
 	if _, err := service.actions.KVSet(ctx, passwordCacheKey(today), fetched); err != nil {
-		service.log(ctx, "warn", "今日密码读取成功，但写入插件缓存失败；本次结果仍会发送。", map[string]any{"date": today, "error": err.Error()})
+		service.log(ctx, "warn", "今日密码已获取，但缓存保存失败。", map[string]any{"date": today, "error": err.Error()})
 	}
 	return fetched, nil
 }

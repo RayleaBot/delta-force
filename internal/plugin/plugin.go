@@ -62,7 +62,7 @@ func (app *application) sendLoot(ctx context.Context, event *rayleabot.EventCont
 	}
 	result, err := app.loot.roll(query)
 	if err != nil {
-		app.log(ctx, event.Actions(), "error", "摸容器模拟失败；本次没有生成结果，请稍后重试。", map[string]any{"container": query, "error": err.Error()})
+		app.log(ctx, event.Actions(), "error", "摸容器模拟失败。", map[string]any{"container": query, "error": err.Error()})
 		return event.SendText("这次没有摸到结果，请稍后再试。")
 	}
 	now := app.now().In(chinaLocation)
@@ -81,12 +81,12 @@ func (app *application) sendLoot(ctx context.Context, event *rayleabot.EventCont
 		FallbackText: fallback,
 	})
 	if renderErr != nil {
-		app.log(ctx, event.Actions(), "warn", "摸容器结果图片生成失败；本次将发送完整文字结果。", map[string]any{"container": result.Container.Name, "error": renderErr.Error()})
+		app.log(ctx, event.Actions(), "warn", "摸容器图片生成失败，改用文字回复。", map[string]any{"container": result.Container.Name, "error": renderErr.Error()})
 		return event.SendText(fallback)
 	}
 	imagePath, _ := rendered["image_path"].(string)
 	if strings.TrimSpace(imagePath) == "" {
-		app.log(ctx, event.Actions(), "warn", "摸容器结果渲染完成但没有图片路径；本次将发送完整文字结果。", map[string]any{"container": result.Container.Name})
+		app.log(ctx, event.Actions(), "warn", "未生成摸容器图片，改用文字回复。", map[string]any{"container": result.Container.Name})
 		return event.SendText(fallback)
 	}
 	return event.Send(event.Event.Target.Type, event.Event.Target.ID, rayleabot.Image(imagePath))
@@ -109,7 +109,7 @@ func (app *application) sendPasswords(ctx context.Context, event *rayleabot.Even
 	}
 	record, err := service.get(ctx)
 	if err != nil {
-		app.log(ctx, event.Actions(), "warn", "每日密码来源不可用，且没有通过校验的当天缓存；本次不会发送旧密码。", map[string]any{"error": err.Error()})
+		app.log(ctx, event.Actions(), "warn", "今日密码获取失败，暂无当天的可用缓存。", map[string]any{"error": err.Error()})
 		return event.SendText("今日密码暂时无法获取，且没有可验证的当天缓存。请稍后再试。")
 	}
 	fallback := formatPasswords(record)
@@ -120,12 +120,12 @@ func (app *application) sendPasswords(ctx context.Context, event *rayleabot.Even
 		FallbackText: fallback,
 	})
 	if renderErr != nil {
-		app.log(ctx, event.Actions(), "warn", "每日密码图片生成失败；本次将发送完整文字结果。", map[string]any{"date": record.Date, "error": renderErr.Error()})
+		app.log(ctx, event.Actions(), "warn", "每日密码图片生成失败，改用文字回复。", map[string]any{"date": record.Date, "error": renderErr.Error()})
 		return event.SendText(fallback)
 	}
 	imagePath, _ := rendered["image_path"].(string)
 	if strings.TrimSpace(imagePath) == "" {
-		app.log(ctx, event.Actions(), "warn", "每日密码渲染完成但没有图片路径；本次将发送完整文字结果。", map[string]any{"date": record.Date})
+		app.log(ctx, event.Actions(), "warn", "未生成每日密码图片，改用文字回复。", map[string]any{"date": record.Date})
 		return event.SendText(fallback)
 	}
 	return event.Send(event.Event.Target.Type, event.Event.Target.ID, rayleabot.Image(imagePath))
