@@ -1,5 +1,6 @@
 {
   "id": "delta-loot",
+  "name": "物资查询卡片",
   "version": "1",
   "entry_html": "template.html",
   "stylesheet": "styles.css",
