@@ -14,11 +14,11 @@ type fakeActions struct {
 	httpResult  rayleabot.ActionResult
 	httpErr     error
 	httpCalls   int
-	httpRequest rayleabot.HTTPRequest
+	httpRequest httpRequest
 	kv          map[string]any
 }
 
-func (fake *fakeActions) HTTPRequest(_ context.Context, request rayleabot.HTTPRequest) (rayleabot.ActionResult, error) {
+func (fake *fakeActions) HTTPRequest(_ context.Context, request httpRequest) (rayleabot.ActionResult, error) {
 	fake.httpCalls++
 	fake.httpRequest = request
 	return fake.httpResult, fake.httpErr

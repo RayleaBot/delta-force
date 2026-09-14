@@ -143,7 +143,7 @@ func (service *passwordService) get(ctx context.Context) (passwordRecord, error)
 func (service *passwordService) fetch(ctx context.Context, now time.Time) (passwordRecord, error) {
 	today := now.In(chinaLocation).Format("2006-01-02")
 	requestURL := strings.ReplaceAll(service.settings.APIURL, "{date}", today)
-	result, err := service.actions.HTTPRequest(ctx, rayleabot.HTTPRequest{
+	result, err := service.actions.HTTPRequest(ctx, httpRequest{
 		Method: "GET",
 		URL:    requestURL,
 		Headers: map[string]string{

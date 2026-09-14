@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Go 1.26.6、RayleaBot Go SDK v0.4.0，以及由宿主 Render Service 渲染的静态 HTML/CSS 模板。
+Go 1.26.6、RayleaBot Go SDK v0.7.0，以及由宿主 Render Service 渲染的静态 HTML/CSS 模板。
 
 ## Users
 
@@ -46,7 +46,7 @@ RayleaBot 群聊和私聊中的《三角洲行动》玩家。他们希望通过�
 ## Evidence on Hand
 
 - 用户确认的插件方案和功能边界。
-- RayleaBot manifest v3、protocol v2、Go SDK 与独立插件构建流程。
+- RayleaBot manifest v4、protocol v4、Go SDK 与独立插件构建流程。
 - 联网核验的容器类别资料、相对爆率分级和每日密码 JSON 接口。
 - 没有可验证的官方精确爆率，也没有获得授权的官方品牌素材。
 

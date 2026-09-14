@@ -10,7 +10,7 @@ import (
 )
 
 type hostActions interface {
-	HTTPRequest(context.Context, rayleabot.HTTPRequest) (rayleabot.ActionResult, error)
+	HTTPRequest(context.Context, httpRequest) (rayleabot.ActionResult, error)
 	KVGet(context.Context, string) (rayleabot.ActionResult, error)
 	KVSet(context.Context, string, any) (rayleabot.ActionResult, error)
 	RenderImage(context.Context, rayleabot.RenderImageRequest) (rayleabot.ActionResult, error)
@@ -62,7 +62,7 @@ func (app *application) sendLoot(ctx context.Context, event *rayleabot.EventCont
 	}
 	result, err := app.loot.roll(query)
 	if err != nil {
-		app.log(ctx, event.Actions(), "error", "摸容器模拟失败。", map[string]any{"container": query, "error": err.Error()})
+		app.log(ctx, runtimeActions{Actions: event.Actions()}, "error", "摸容器模拟失败。", map[string]any{"container": query, "error": err.Error()})
 		return event.SendText("这次没有摸到结果，请稍后再试。")
 	}
 	now := app.now().In(chinaLocation)
@@ -81,12 +81,12 @@ func (app *application) sendLoot(ctx context.Context, event *rayleabot.EventCont
 		FallbackText: fallback,
 	})
 	if renderErr != nil {
-		app.log(ctx, event.Actions(), "warn", "摸容器图片生成失败，改用文字回复。", map[string]any{"container": result.Container.Name, "error": renderErr.Error()})
+		app.log(ctx, runtimeActions{Actions: event.Actions()}, "warn", "摸容器图片生成失败，改用文字回复。", map[string]any{"container": result.Container.Name, "error": renderErr.Error()})
 		return event.SendText(fallback)
 	}
 	imagePath, _ := rendered["image_path"].(string)
 	if strings.TrimSpace(imagePath) == "" {
-		app.log(ctx, event.Actions(), "warn", "未生成摸容器图片，改用文字回复。", map[string]any{"container": result.Container.Name})
+		app.log(ctx, runtimeActions{Actions: event.Actions()}, "warn", "未生成摸容器图片，改用文字回复。", map[string]any{"container": result.Container.Name})
 		return event.SendText(fallback)
 	}
 	return event.Send(event.Event.Target.Type, event.Event.Target.ID, rayleabot.Image(imagePath))
@@ -102,14 +102,14 @@ func (app *application) sendContainerList(event *rayleabot.EventContext) error {
 }
 
 func (app *application) sendPasswords(ctx context.Context, event *rayleabot.EventContext) error {
-	service, err := newPasswordService(event.Actions(), event.Config, app.now)
+	service, err := newPasswordService(runtimeActions{Actions: event.Actions()}, event.Config, app.now)
 	if err != nil {
-		app.log(ctx, event.Actions(), "error", "每日密码配置无效；请在插件设置中修正接口地址或超时。", map[string]any{"error": err.Error()})
+		app.log(ctx, runtimeActions{Actions: event.Actions()}, "error", "每日密码配置无效；请在插件设置中修正接口地址或超时。", map[string]any{"error": err.Error()})
 		return event.SendText("每日密码配置无效，请联系管理员检查插件设置。")
 	}
 	record, err := service.get(ctx)
 	if err != nil {
-		app.log(ctx, event.Actions(), "warn", "今日密码获取失败，暂无当天的可用缓存。", map[string]any{"error": err.Error()})
+		app.log(ctx, runtimeActions{Actions: event.Actions()}, "warn", "今日密码获取失败，暂无当天的可用缓存。", map[string]any{"error": err.Error()})
 		return event.SendText("今日密码暂时无法获取，且没有可验证的当天缓存。请稍后再试。")
 	}
 	fallback := formatPasswords(record)
@@ -120,12 +120,12 @@ func (app *application) sendPasswords(ctx context.Context, event *rayleabot.Even
 		FallbackText: fallback,
 	})
 	if renderErr != nil {
-		app.log(ctx, event.Actions(), "warn", "每日密码图片生成失败，改用文字回复。", map[string]any{"date": record.Date, "error": renderErr.Error()})
+		app.log(ctx, runtimeActions{Actions: event.Actions()}, "warn", "每日密码图片生成失败，改用文字回复。", map[string]any{"date": record.Date, "error": renderErr.Error()})
 		return event.SendText(fallback)
 	}
 	imagePath, _ := rendered["image_path"].(string)
 	if strings.TrimSpace(imagePath) == "" {
-		app.log(ctx, event.Actions(), "warn", "未生成每日密码图片，改用文字回复。", map[string]any{"date": record.Date})
+		app.log(ctx, runtimeActions{Actions: event.Actions()}, "warn", "未生成每日密码图片，改用文字回复。", map[string]any{"date": record.Date})
 		return event.SendText(fallback)
 	}
 	return event.Send(event.Event.Target.Type, event.Event.Target.ID, rayleabot.Image(imagePath))

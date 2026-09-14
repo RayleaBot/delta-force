@@ -3,7 +3,7 @@
 ## RayleaBot Go SDK
 
 - Component: `github.com/RayleaBot/RayleaBot/sdk/go`
-- Version: `v0.4.0` contract line
+- Version: `v0.7.0` contract line
 - License: GNU Affero General Public License v3.0
 - Source: <https://github.com/RayleaBot/RayleaBot>
 
