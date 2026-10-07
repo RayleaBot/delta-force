@@ -8,7 +8,7 @@
   "metadata": {
     "description": "《三角洲行动》摸容器模拟与每日密码查询",
     "author": "raylea",
-    "repo": "https://github.com/RayleaBot/plugin-delta-force",
+    "repo": "https://github.com/RayleaBot/delta-force",
     "keywords": ["delta-force", "loot", "password", "render"]
   },
   "concurrency": 8,

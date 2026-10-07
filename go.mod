@@ -1,4 +1,4 @@
-module github.com/RayleaBot/plugin-delta-force
+module github.com/RayleaBot/delta-force
 
 go 1.27.1
 

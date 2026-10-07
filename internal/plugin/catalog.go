@@ -7,7 +7,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/RayleaBot/plugin-delta-force/internal/assets"
+	"github.com/RayleaBot/delta-force/internal/assets"
 )
 
 const weightScale = 10_000

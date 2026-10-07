@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/RayleaBot/plugin-delta-force/internal/plugin"
+	"github.com/RayleaBot/delta-force/internal/plugin"
 )
 
 func main() {
