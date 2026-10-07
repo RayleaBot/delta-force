@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "manifest_version": "4",
   "license": "AGPL-3.0-only",
-  "min_core_version": "0.7.0",
+  "min_core_version": "0.4.0",
   "metadata": {
     "description": "《三角洲行动》摸容器模拟与每日密码查询",
     "author": "raylea",

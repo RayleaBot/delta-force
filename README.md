@@ -45,7 +45,7 @@ docs/sources.md        数据依据、取舍和更新规则
 
 ## 开发与验证
 
-插件依赖 RayleaBot Go SDK v0.7.0。主仓库开发工作区会生成临时 `go.work`，把本插件与当前 SDK 连接起来，不需要在 `go.mod` 写本地 `replace`。
+插件依赖 RayleaBot Go SDK v0.6.0。主仓库开发工作区会生成临时 `go.work`，把本插件与当前 SDK 连接起来，不需要在 `go.mod` 写本地 `replace`。
 
 在已配置 RayleaBot 开发工作区后运行：
 

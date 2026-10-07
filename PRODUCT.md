@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Go 1.26.6、RayleaBot Go SDK v0.7.0，以及由宿主 Render Service 渲染的静态 HTML/CSS 模板。
+Go 1.26.6、RayleaBot Go SDK v0.6.0，以及由宿主 Render Service 渲染的静态 HTML/CSS 模板。
 
 ## Users
 
